@@ -5,6 +5,7 @@
  * @format
  * @flow strict-local
  */
+// import 'react-native-gesture-handler';
 
 import React from 'react';
 import {
@@ -24,10 +25,14 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-// import
+// import NavBar from "./src/sideBar/nvv"
+import SideDrawer from "./src/sideBar/reactNavSideMenu"
+
 export default App = () => {
   return (
-    <View><Text>test</Text></View>
+    // <View><Text>test</Text></View>
+    // <NavBar />
+    <SideDrawer />
   );
 };
 
