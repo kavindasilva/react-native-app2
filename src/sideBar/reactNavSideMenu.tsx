@@ -9,7 +9,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import HomeScreen from "../home/home"
 import LoginScreen from "../login/login"
-// import OwlBotUi from "../dictionary/owlbotMain"
+import OwlBotUi from "../dictionary/owlbotMain"
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,7 +20,7 @@ export default function SideMenuContent() {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="OwlDic">
-        {/* <Drawer.Screen name="OwlDic" component={OwlBotUi} /> */}
+        <Drawer.Screen name="OwlDic" component={OwlBotUi} />
         {/* <Drawer.Screen name="QRscanner" component={OwlBotUi} /> */}
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Notifications" component={LoginScreen} />
