@@ -23,12 +23,16 @@ const FLASH_MODES = [
 export default class ScanScreen extends Component {
     state = {
         useBackCam: true,
-        qrFlashMode: RNCamera.Constants.FlashMode.off,
+        qrFlashMode: FLASH_MODES[10],
+        // qrFlashMode: RNCamera.Constants.FlashMode.off,
         // cameraType: "back",
         // cameraType: "front",
     }
 
-    setFlashMode = () => {}
+    setFlashMode = () => {
+        // this.setState({qrFlashMode:RNCamera.Constants.FlashMode.on })
+        return true;
+    }
     onSuccess = e => {
         console.log("qr result: ", e);
         console.debug("qr result str:", JSON.stringify(e, null, 2) )
@@ -44,7 +48,7 @@ export default class ScanScreen extends Component {
                 <QRCodeScanner
                     onRead={this.onSuccess}
                     // flashMode={RNCamera.Constants.FlashMode.torch}
-                    flashMode={ this.state.qrFlashMode }
+                    flashMode={ RNCamera.Constants.FlashMode.off }
                     // topContent={
                     //     <Text style={styles.centerText}>
                     //         Go to{' '}
@@ -64,7 +68,7 @@ export default class ScanScreen extends Component {
                 <View style={{flex:1}}>
                     <Text>Control panel</Text>
                     <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})}></Button>
-                    <Button title="FLASH" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})}></Button>
+                    <Button title="FLASH" onPress={ (e)=>this.setFlashMode() }></Button>
                 </View>
             </View>
         );

@@ -1,13 +1,26 @@
 
+import 'react-native';
+import React from 'react';
+
 import QrScanner from "../src/qrscanner/qrmain"
 import renderer from 'react-test-renderer';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 import { PERMISSIONS } from "react-native-permissions"
 jest.mock('react-native-permissions', () => require("react-native-permissions/mock") );
 
+// const wrapper = shallow(<QrScanner />);
+// expect(wrapper.instance().doSomethingFancy()).toEqual(true);
+
+it('given a date in the past, colorForDueDate() returns red', () => {
+    const wrapper =  new QrScanner();
+    // const wrapper =  renderer.create(<QrScanner />);
+    expect( wrapper.setFlashMode() )
+    .toBe(true);
+  });
 
 test('given empty GroceryShoppingList, user can add an item to it', () => {
-    // const { getByPlaceholder, getByText, getAllByText } = render(
+    // const { getByPlaceholder, getByText, getAllByText } = renderer.create(
     //     <QrScanner />
     //   );
     
@@ -20,6 +33,6 @@ test('given empty GroceryShoppingList, user can add an item to it', () => {
     //   const bananaElements = getAllByText('banana');
     //   expect(bananaElements).toHaveLength(1); // expect 'banana' to be on the list
 
-    const bananaElements = "b";
-    expect(bananaElements).toHaveLength(1); // expect 'banana' to be on the list
+    // const bananaElements = "b";
+    // expect(bananaElements).toHaveLength(1); // expect 'banana' to be on the list
 });
