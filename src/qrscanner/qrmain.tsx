@@ -13,12 +13,22 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
+const FLASH_MODES = [
+    RNCamera.Constants.FlashMode.off,
+    RNCamera.Constants.FlashMode.auto,
+    RNCamera.Constants.FlashMode.on,
+    RNCamera.Constants.FlashMode.torch
+]
+
 export default class ScanScreen extends Component {
     state = {
         useBackCam: true,
+        qrFlashMode: RNCamera.Constants.FlashMode.off,
         // cameraType: "back",
         // cameraType: "front",
     }
+
+    setFlashMode = () => {}
     onSuccess = e => {
         console.log("qr result: ", e);
         console.debug("qr result str:", JSON.stringify(e, null, 2) )
@@ -29,27 +39,32 @@ export default class ScanScreen extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{flex:1}}>
+                <View style={{flex:2}}>
                 <QRCodeScanner
                     onRead={this.onSuccess}
                     // flashMode={RNCamera.Constants.FlashMode.torch}
-                    topContent={
-                        <Text style={styles.centerText}>
-                            Go to{' '}
-                            <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-                            your computer and scan the QR code.
-                        </Text>
-                    }
+                    flashMode={ this.state.qrFlashMode }
+                    // topContent={
+                    //     <Text style={styles.centerText}>
+                    //         Go to{' '}
+                    //         <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+                    //         your computer and scan the QR code.
+                    //     </Text>
+                    // }
                     cameraType={ (this.state.useBackCam) ? "back" : "front" }
-                    bottomContent={
-                        <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text style={styles.buttonText}>OK. Got it!</Text>
-                        </TouchableOpacity>
-                    }
+                    cameraStyle={ {flex: 1} }
+                    // bottomContent={
+                    //     <TouchableOpacity style={styles.buttonTouchable}>
+                    //         <Text style={styles.buttonText}>OK. Got it!</Text>
+                    //     </TouchableOpacity>
+                    // }
                 />
-                <View>
+                </View>
+                <View style={{flex:1}}>
                     <Text>Control panel</Text>
                     <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})}></Button>
+                    <Button title="FLASH" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})}></Button>
                 </View>
             </View>
         );
