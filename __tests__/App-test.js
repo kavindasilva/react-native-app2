@@ -50,8 +50,12 @@ jest.mock('react-native-gesture-handler', () => {
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock') );
 // jest.mock('react-native-tab-view', () => {});
 
-import App from '../App';
-it('renders correctly', () => {
-  renderer.create(<App />);
-});
+// import App from '../App';
+// it('renders correctly', () => {
+//   renderer.create(<App />);
+// });
 
+test('given empty GroceryShoppingList, user can add an item to it', () => {
+  const bananaElements = "b";
+  expect(bananaElements).toHaveLength(1); // expect 'banana' to be on the list
+});
