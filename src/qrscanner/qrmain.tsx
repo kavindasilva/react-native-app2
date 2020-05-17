@@ -13,25 +13,17 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
-const FLASH_MODES = [
-    RNCamera.Constants.FlashMode.off,
-    RNCamera.Constants.FlashMode.auto,
-    RNCamera.Constants.FlashMode.on,
-    RNCamera.Constants.FlashMode.torch
-]
 
 export default class ScanScreen extends Component {
     state = {
         useBackCam: true,
-        qrFlashMode: FLASH_MODES[10],
+        useFlash: false
         // qrFlashMode: RNCamera.Constants.FlashMode.off,
-        // cameraType: "back",
-        // cameraType: "front",
     }
 
     setFlashMode = () => {
-        this.setState({qrFlashMode:RNCamera.Constants.FlashMode.on })
-        return true;
+        this.setState({useFlash: !this.state.useFlash })
+        return true; // just used in incomplete unit testing
     }
     onSuccess = e => {
         console.log("qr result: ", e);
@@ -48,7 +40,7 @@ export default class ScanScreen extends Component {
                 <QRCodeScanner
                     onRead={this.onSuccess}
                     // flashMode={RNCamera.Constants.FlashMode.torch}
-                    flashMode={ RNCamera.Constants.FlashMode.off }
+                    flashMode={ this.state.useFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off }
                     // topContent={
                     //     <Text style={styles.centerText}>
                     //         Go to{' '}
@@ -94,5 +86,3 @@ const styles = StyleSheet.create({
         padding: 16
     }
 });
-
-// AppRegistry.registerComponent('default', () => ScanScreen);
