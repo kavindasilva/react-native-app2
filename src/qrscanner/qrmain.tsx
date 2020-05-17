@@ -21,9 +21,11 @@ export default class ScanScreen extends Component {
         this.setState({useFlash: !this.state.useFlash })
         return true; // just used in incomplete unit testing
     }
-    onSuccess = e => {
-        console.log("qr result: ", e);
-        console.debug("qr result str:", JSON.stringify(e, null, 2) )
+
+    onSuccess = data => {
+        console.log("qr result: ", data);
+        console.debug("qr result str:", JSON.stringify(data, null, 2) );
+        this.setQrcodeData(data);
         // Linking.openURL(e.data).catch(err =>
         //     console.error('An error occured', err)
         // );
@@ -34,39 +36,51 @@ export default class ScanScreen extends Component {
         this.setState({qr_data: url });
     }
 
+    openQrUrl = () => {
+        Linking.openURL(this.state.qr_data)
+            .catch(err =>
+                console.error('openQrUrl error:', err)
+            );
+    }
+
     render() {
         return (
-        <ScrollView style={{flex:1}} keyboardShouldPersistTaps="always" >
-            <View style={{flex:1}}>
-                <View style={{flex:2}}>
-                <QRCodeScanner
-                    onRead={this.onSuccess}
-                    ref={(node) => { this.qrscanner = node }}
-                    flashMode={ this.state.useFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off }
-                    // topContent={
-                    //     <Text style={styles.centerText}>
-                    //         Go to{' '}
-                    //         <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-                    //         your computer and scan the QR code.
-                    //     </Text>
-                    // }
-                    cameraType={ (this.state.useBackCam) ? "back" : "front" }
-                    cameraStyle={ {flex: 1} }
-                    // bottomContent={
-                    //     <TouchableOpacity style={styles.buttonTouchable}>
-                    //         <Text style={styles.buttonText}>OK. Got it!</Text>
-                    //     </TouchableOpacity>
-                    // }
-                />
-                </View>
+            <ScrollView style={{flex:1}} keyboardShouldPersistTaps="always" >
                 <View style={{flex:1}}>
-                    <Text>Control panel</Text>
-                    <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})}></Button>
-                    <Button title="FLASH" onPress={ (e)=>this.setFlashMode() }></Button>
-                    <Button title="reScan" onPress={ () => this.qrscanner.reactivate() }></Button>
-                    <TextInput value={ this.state.qr_data } />
+                    <View style={{flex:2}}>
+                    <QRCodeScanner
+                        onRead={this.onSuccess}
+                        ref={(node) => { this.qrscanner = node }}
+                        flashMode={ this.state.useFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off }
+                        // topContent={
+                        //     <Text style={styles.centerText}>
+                        //         Go to{' '}
+                        //         <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+                        //         your computer and scan the QR code.
+                        //     </Text>
+                        // }
+                        cameraType={ (this.state.useBackCam) ? "back" : "front" }
+                        cameraStyle={ {flex: 1} }
+                        // bottomContent={
+                        //     <TouchableOpacity style={styles.buttonTouchable}>
+                        //         <Text style={styles.buttonText}>OK. Got it!</Text>
+                        //     </TouchableOpacity>
+                        // }
+                    />
+                    </View>
+                    <View style={{flex:1}}>
+                        <Text>Control panel</Text>
+                        <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})} />
+                        <Button title="FLASH" onPress={ (e)=>this.setFlashMode() } />
+                        <Button title="reScan" onPress={ () => this.qrscanner.reactivate() } />
+                        <TextInput value={ this.state.qr_data } />
+                        <Button 
+                            title="open" 
+                            onPress={ () => this.openQrUrl() }
+                            disabled={ this.state.qr_data==="scan qr/bar code" }
+                        />
+                    </View>
                 </View>
-            </View>
             </ScrollView>
         );
     }
