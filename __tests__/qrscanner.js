@@ -2,7 +2,7 @@
 import 'react-native';
 import React from 'react';
 
-import QrScanner from "../src/qrscanner/qrmain"
+import QrScanner, { setFlashMode } from "../src/qrscanner/qrmain"
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
@@ -14,8 +14,17 @@ jest.mock('react-native-permissions', () => require("react-native-permissions/mo
 
 it('given a date in the past, colorForDueDate() returns red', () => {
     const wrapper =  new QrScanner();
-    // const wrapper =  renderer.create(<QrScanner />);
+    // const wrapper =  renderer.create( <QrScanner /> );
+    // const wrapper = ShallowRenderer.createRenderer(<QrScanner/>);
+    wrapper.setState({qrFlashMode: 0});
     expect( wrapper.setFlashMode() )
+    .toBe(true);
+  });
+
+it('set flash mode', () => {
+    // const fmresult = setFlashMode();
+    const fmresult = renderer.create( <setFlashMode /> );
+    expect( fmresult )
     .toBe(true);
   });
 

@@ -30,7 +30,7 @@ export default class ScanScreen extends Component {
     }
 
     setFlashMode = () => {
-        // this.setState({qrFlashMode:RNCamera.Constants.FlashMode.on })
+        this.setState({qrFlashMode:RNCamera.Constants.FlashMode.on })
         return true;
     }
     onSuccess = e => {
