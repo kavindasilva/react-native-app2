@@ -37,6 +37,10 @@ export default class ScanScreen extends Component {
     }
 
     openQrUrl = () => {
+        if(!this.state.qr_data){
+            altt();
+            return false;
+        }
         Linking.openURL(this.state.qr_data)
             .catch(err =>
                 console.error('openQrUrl error:', err)
@@ -91,7 +95,6 @@ export default class ScanScreen extends Component {
                                 this.qrscanner.reactivate()
                             }}
                         />
-                        <Button title="ad" onPress={ ()=>altt() } />
 
                         <View style={styles.textInputWithCloseBtn}>
                             <TextInput
