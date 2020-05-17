@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
 import {
-    View, TextInput, ScrollView, StyleSheet, Text, Button,
+    View, TextInput, ScrollView, StyleSheet, Text, Button, Switch, TouchableHighlight,
     AppRegistry, TouchableOpacity, Linking
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default class ScanScreen extends Component {
     state = {
@@ -70,8 +70,33 @@ export default class ScanScreen extends Component {
                     </View>
                     <View style={{flex:1}}>
                         <Text>Control panel</Text>
-                        <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})} />
-                        <Button title="FLASH" onPress={ (e)=>this.setFlashMode() } />
+                        <View
+                            style={{
+                                width:100,
+                                flex:1,
+                                flexDirection: "row",
+                                alignSelf: "center",
+                                // alignItems: "stretch",
+                                alignContent: "space-around",
+                            }}
+                        >
+                            <MaterialIcons 
+                                name="switch-camera" 
+                                style={{backgroundColor: "#223322", color: "#ee3344"}}
+                                size={30} 
+                                onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam}) }
+                            />
+                            {/* <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})} /> */}
+
+                            <Switch
+                                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                                thumbColor={this.state.useFlash ? "#f5dd4b" : "#f4f3f4"}
+                                ios_backgroundColor="#3e3e3e"
+                                onChange={ (e)=>this.setFlashMode() }
+                                value={this.state.useFlash}
+                            />
+                        </View>
+
                         <Button title="reScan" onPress={ () => this.qrscanner.reactivate() } />
                         <TextInput value={ this.state.qr_data } />
                         <Button 
