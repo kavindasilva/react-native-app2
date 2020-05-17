@@ -13,7 +13,7 @@ export default class ScanScreen extends Component {
     state = {
         useBackCam: true,
         useFlash: false,
-        qr_data: "scan qr/bar code",
+        qr_data: "",
         // qrFlashMode: RNCamera.Constants.FlashMode.off,
     }
 
@@ -52,20 +52,8 @@ export default class ScanScreen extends Component {
                         onRead={this.onSuccess}
                         ref={(node) => { this.qrscanner = node }}
                         flashMode={ this.state.useFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off }
-                        // topContent={
-                        //     <Text style={styles.centerText}>
-                        //         Go to{' '}
-                        //         <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-                        //         your computer and scan the QR code.
-                        //     </Text>
-                        // }
                         cameraType={ (this.state.useBackCam) ? "back" : "front" }
                         cameraStyle={ {flex: 1} }
-                        // bottomContent={
-                        //     <TouchableOpacity style={styles.buttonTouchable}>
-                        //         <Text style={styles.buttonText}>OK. Got it!</Text>
-                        //     </TouchableOpacity>
-                        // }
                     />
                     </View>
                     <View style={{flex:1}}>
@@ -82,7 +70,7 @@ export default class ScanScreen extends Component {
                         >
                             <MaterialIcons 
                                 name="switch-camera" 
-                                style={{backgroundColor: "#223322", color: "#ee3344"}}
+                                style={styles.switchCameraBtn}
                                 size={30} 
                                 onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam}) }
                             />
@@ -98,12 +86,23 @@ export default class ScanScreen extends Component {
                         </View>
 
                         <Button title="reScan" onPress={ () => this.qrscanner.reactivate() } />
-                        <TextInput value={ this.state.qr_data } />
+
+                        <View style={styles.textInputWithCloseBtn}>
+                            <TextInput
+                                style={ styles.searchBar }
+                                placeholder={ this.state.qr_data }
+                                value={ this.state.qr_data }
+                            />
+                            <TouchableOpacity style={styles.clearBtnWrapper} onPress={ ()=>this.openQrUrl() } >
+                                <MaterialIcons style={styles.clearBtn} name="open-in-new" size={30} />
+                            </TouchableOpacity>
+                        </View>
+                        {/* <TextInput value={ this.state.qr_data } />
                         <Button 
                             title="open" 
                             onPress={ () => this.openQrUrl() }
                             disabled={ this.state.qr_data==="scan qr/bar code" }
-                        />
+                        /> */}
                     </View>
                 </View>
             </ScrollView>
@@ -112,6 +111,39 @@ export default class ScanScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+    switchCameraBtn: {
+        backgroundColor: "transparent", 
+        color: "#ee3344"
+    },
+    textInputWithCloseBtn: {
+        borderColor: "#000011",
+        borderRadius: 5,
+        borderWidth: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 5,
+    },
+    clearBtn:{
+        alignContent: "center",
+        textAlignVertical: "center"
+    },
+    clearBtnWrapper: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        opacity: 0.80,
+        borderTopRightRadius: 5,
+        borderBottomRightRadius: 5,
+        backgroundColor: "#cdcdcd", 
+        // borderWidth:1,
+        width: 30,
+    },
+    searchBar: {
+        borderColor: "#000011",
+        // borderWidth: 1,
+        borderRadius: 5,
+        // marginBottom: 5,
+        width: "90%",
+    },
     centerText: {
         flex: 1,
         fontSize: 18,
