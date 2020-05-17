@@ -17,7 +17,7 @@ import { RNCamera } from 'react-native-camera';
 export default class ScanScreen extends Component {
     state = {
         useBackCam: true,
-        useFlash: false
+        useFlash: false,
         // qrFlashMode: RNCamera.Constants.FlashMode.off,
     }
 
@@ -39,7 +39,7 @@ export default class ScanScreen extends Component {
                 <View style={{flex:2}}>
                 <QRCodeScanner
                     onRead={this.onSuccess}
-                    // flashMode={RNCamera.Constants.FlashMode.torch}
+                    ref={(node) => { this.qrscanner = node }}
                     flashMode={ this.state.useFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off }
                     // topContent={
                     //     <Text style={styles.centerText}>
@@ -61,6 +61,7 @@ export default class ScanScreen extends Component {
                     <Text>Control panel</Text>
                     <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})}></Button>
                     <Button title="FLASH" onPress={ (e)=>this.setFlashMode() }></Button>
+                    <Button title="reScan" onPress={ () => this.qrscanner.reactivate() }></Button>
                 </View>
             </View>
         );
