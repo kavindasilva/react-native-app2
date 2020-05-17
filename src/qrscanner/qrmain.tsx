@@ -85,12 +85,17 @@ export default class ScanScreen extends Component {
                             />
                         </View>
 
-                        <Button title="reScan" onPress={ () => this.qrscanner.reactivate() } />
+                        <Button title="reScan" 
+                            onPress={ () => {
+                                this.setState({qr_data: ""})
+                                this.qrscanner.reactivate()
+                            }}
+                        />
 
                         <View style={styles.textInputWithCloseBtn}>
                             <TextInput
                                 style={ styles.searchBar }
-                                placeholder={ this.state.qr_data }
+                                placeholder={ "scan a barcode or QR code" }
                                 value={ this.state.qr_data }
                             />
                             <TouchableOpacity style={styles.clearBtnWrapper} onPress={ ()=>this.openQrUrl() } >
