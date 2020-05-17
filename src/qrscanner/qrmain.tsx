@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 
 import {
-    View,
-    AppRegistry,
-    StyleSheet,
-    Text,
-    Button,
-    TouchableOpacity,
-    Linking
+    View, TextInput, ScrollView, StyleSheet, Text, Button,
+    AppRegistry, TouchableOpacity, Linking
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -18,6 +13,7 @@ export default class ScanScreen extends Component {
     state = {
         useBackCam: true,
         useFlash: false,
+        qr_data: "scan qr/bar code",
         // qrFlashMode: RNCamera.Constants.FlashMode.off,
     }
 
@@ -33,8 +29,14 @@ export default class ScanScreen extends Component {
         // );
     };
 
+    setQrcodeData = (data) => {
+        let url = data.data;
+        this.setState({qr_data: url });
+    }
+
     render() {
         return (
+        <ScrollView style={{flex:1}} keyboardShouldPersistTaps="always" >
             <View style={{flex:1}}>
                 <View style={{flex:2}}>
                 <QRCodeScanner
@@ -62,8 +64,10 @@ export default class ScanScreen extends Component {
                     <Button title="CAM" onPress={ (e)=>this.setState({useBackCam: !this.state.useBackCam})}></Button>
                     <Button title="FLASH" onPress={ (e)=>this.setFlashMode() }></Button>
                     <Button title="reScan" onPress={ () => this.qrscanner.reactivate() }></Button>
+                    <TextInput value={ this.state.qr_data } />
                 </View>
             </View>
+            </ScrollView>
         );
     }
 }
