@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {
-    View, TextInput, ScrollView, StyleSheet, Text, Button, Switch, TouchableHighlight,
+    View, TextInput, ScrollView, StyleSheet, Text, Button, Switch, TouchableHighlight, Alert,
     AppRegistry, TouchableOpacity, Linking
 } from 'react-native';
 
@@ -91,6 +91,7 @@ export default class ScanScreen extends Component {
                                 this.qrscanner.reactivate()
                             }}
                         />
+                        <Button title="ad" onPress={ ()=>altt() } />
 
                         <View style={styles.textInputWithCloseBtn}>
                             <TextInput
@@ -114,6 +115,27 @@ export default class ScanScreen extends Component {
         );
     }
 }
+
+const altt = () => (
+    Alert.alert(
+        "Error",
+        "Please scan a code before opening",
+        [
+            {
+                text: "Cancel",
+                onPress: () => false,
+                style: "cancel"
+            },
+            { 
+                text: "OK", 
+                onPress: () => true 
+            }
+        ],
+        { 
+            cancelable: false 
+        }
+      )
+)
 
 const styles = StyleSheet.create({
     switchCameraBtn: {
