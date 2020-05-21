@@ -50,6 +50,14 @@ function setAuthenticationHeader(){
     };
 }
 
+let exportss = {};
+// console.log("en", process.env.NODE_ENV);
+if(process.env.NODE_ENV==="test"){
+    exportss['setAuthenticationHeader'] = setAuthenticationHeader ;
+    console.log("api test");
+}
+export default exportss;
+
 /**
  * success
  * {
