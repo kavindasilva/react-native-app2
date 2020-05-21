@@ -6,12 +6,12 @@
 import 'react-native';
 import React from 'react';
 import App from '../App';
+import envConfig from "../env";
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 
-// import { setAuthenticationHeader } from "../src/services/owlbotApi.tsx"
-import exportss from "../src/services/owlbotApi.tsx"
+import exportss, {getWord} from "../src/services/owlbotApi.tsx"
 
 jest.mock('react-native-gesture-handler', () => {
   // eslint-disable-next-line global-require
@@ -55,19 +55,11 @@ jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock
 //   });
 // })
 
-test("check auth header", () => {
-  // console.log("en", process.env.NODE_ENV);
-  const expectedAuthObj = { 
-    headers: {
-      "Authorization": "str"
-    } 
-  };
-  expect( exportss.setAuthenticationHeader() ).toBe(true);
-  // const actualAuthObj = setAuthenticationHeader();
-  // console.log("dsd", actualAuthObj);
-  // expect.objectContaining({
-  //   "headers": ""
-  // });
+test("check auth header api key", () => {
+  const apiKey = "Token "+envConfig.owlbotApiKey;
+  expect( exportss.setAuthenticationHeader() ).toEqual(expect.objectContaining({
+    "headers": {"Authorization": apiKey }
+  }));
 });
 
 // it('renders correctly', () => {
