@@ -62,6 +62,18 @@ test("check auth header api key", () => {
   }));
 });
 
+test("getWord empty", async () => {
+  const resp = await getWord();
+  console.log("get1:", resp);
+  expect( resp.err ).toBe(false);
+  expect( resp.msg ).toContain('undefined');
+});
+
+test("getWord owl", async () => {
+  const resp = await getWord("owl");
+  expect( resp.err ).toBe(false);
+});
+
 // it('renders correctly', () => {
 //   renderer.create(<App />);
 // });
