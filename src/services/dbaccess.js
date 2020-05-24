@@ -2,6 +2,12 @@
 // var React = require('react-native');
 var SQLite = require('react-native-sqlite-storage')
 
+const createHistoryTbl = `CREATE TABLE IF NOT EXISTS searchHistory( 
+    entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    value VARCHAR(40),
+    date DATE
+ );`;
+
 export default class Dba{
     db = null;
     constructor(props){
@@ -10,12 +16,22 @@ export default class Dba{
             ()=>console.log("db opensuccess"),
             (e)=>console.log("db error", e)
         );
-    }
-    // sql_stmt = "insert into x values(1); select * from t;";
-    // sql_stmt = "select * from tt;";
-    sql_stmt = "select * from x;";
 
-    showDb = () => {
+        this.db.transaction( (txn) => {
+            txn.executeSql(
+                createHistoryTbl, [],
+                (tx, res) => {
+                    console.log("showdb tx,", tx, "showdb res" ,res);
+                },
+                (err) =>  console.log("showdb err", err)
+            )
+        } ); 
+    }
+    sql_stmt = "insert into x values(1); select * from t;";
+    // sql_stmt = "select * from tt;";
+    // sql_stmt = "select * from x;";
+
+    addTohistory = () => {
         return this.db.transaction( (txn) => {
             txn.executeSql(
                 this.sql_stmt, [],
@@ -41,6 +57,39 @@ export default class Dba{
             //     e => console.log("showdb err", err)
             // );
     }
+
+    /**
+        showdb tx = 
+        {
+            "db": {
+                "dbname": "t1.db", 
+                "openError": [Function anonymous], 
+                "openSuccess": [Function anonymous], 
+                "openargs": {
+                    "assetFilename": "1", 
+                    "createFromLocation": 1, 
+                    "dblocation": "nosync", 
+                    "name": "t1.db"
+                }
+            }, 
+            "error": undefined, 
+            "executes": [], 
+            "fn": [Function anonymous], 
+            "readOnly": false, 
+            "success": undefined, 
+            "txlock": true
+        }
+        showdb res = 
+        {
+            "insertId": undefined, 
+            "rows": {
+                "item": [Function item], 
+                "length": 5, 
+                "raw": [Function raw]
+            }, 
+            "rowsAffected": 0
+        }
+     */
     
 }
 
