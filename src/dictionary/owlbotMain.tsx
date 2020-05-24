@@ -110,7 +110,8 @@ export default function OwlBotDictionary({ navigation }) {
 
 async function saveLocalDb(word: string){
     let dbo = new DBa();
-    dbo.showDb();
+    dbo.addToHistory(word);
+    // dbo.close()
     // SQLite.DEBUG(true);
     // SQLite.enablePromise(true);
 

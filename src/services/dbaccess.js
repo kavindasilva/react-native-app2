@@ -8,6 +8,14 @@ const createHistoryTbl = `CREATE TABLE IF NOT EXISTS searchHistory(
     date DATE
  );`;
 
+ const addHistoryRecord = `INSERT INTO searchHistory VALUES( 
+    null, ?, ?
+ );`;
+
+ const readMatchingRecords = `SELECT * FROM searchHistory
+    WHERE value = ? OR value LIKE ? or value LIKE ?
+ `;
+
 export default class Dba{
     db = null;
     constructor(props){
@@ -31,31 +39,34 @@ export default class Dba{
     // sql_stmt = "select * from tt;";
     // sql_stmt = "select * from x;";
 
-    addTohistory = () => {
+    addToHistory = (item) => {
         return this.db.transaction( (txn) => {
             txn.executeSql(
-                this.sql_stmt, [],
+                // addHistoryRecord, ['ww', '2020-02-02 02:02:02'],
+                addHistoryRecord, [item, new Date( Date.now() ).toLocaleString() ],
                 (tx, res) => {
-                    console.log("showdb tx,", tx, "showdb res" ,res);
+                    console.log("showdb tx,", tx, "showdb res" ,res.insertId);
                 },
                 (err) =>  console.log("showdb err", err)
             )
         } ); 
-        return this.db.executeSql('create table if not exists x(pk int); insert into x values(1); select * from x;', [],
-            (res) => {
-                console.debug("showdb res", res);
-            },
-            (err)=>console.log("showdb err", err)
-        ); 
-        //.then( ([res]) =>{console.log("then res", res)} );
-            // .then(
-            //     res => {
-            //         console.debug("showdb res", res);
-            //     }
-            // )
-            // .catch(
-            //     e => console.log("showdb err", err)
-            // );
+    }
+
+    readHistory = (item) => {
+        return this.db.transaction( (txn) => {
+            txn.executeSql(
+                // addHistoryRecord, ['ww', '2020-02-02 02:02:02'],
+                addHistoryRecord, [item, new Date( Date.now() ).toLocaleString() ],
+                (tx, res) => {
+                    console.log("showdb tx,", tx, "showdb res" ,res.insertId);
+                },
+                (err) =>  console.log("showdb err", err)
+            )
+        } ); 
+    }
+
+    closeConnection = () => {
+        this.db.close();
     }
 
     /**
