@@ -8,13 +8,16 @@ import { owlBotConstants } from "../common/constants"
 // import { ScrollView } from 'react-native-gesture-handler';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
+import SQLite from "react-native-sqlite-storage";
+
 /**
  * help from: https://www.robinwieruch.de/react-hooks-fetch-data
  * @TODO: handle 404 and errors efficiently
  */
 
 export default function OwlBotDictionary({ navigation }) {
-    const [ searchQuery, setSearchQuery ] = useState("");
+    // const [ searchQuery, setSearchQuery ] = useState("");
+    const [ searchQuery, setSearchQuery ] = useState("test");
     const [ wordDefinition, setWordDefinition ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ errors, setErrors ] = useState("");
@@ -52,6 +55,7 @@ export default function OwlBotDictionary({ navigation }) {
                 <Button
                     disabled={ (searchQuery=="" || false) }
                     onPress={ async () => {
+                        saveLocalDb(searchQuery);
                         setIsLoading(true);
                         let xx = await searchApi(searchQuery);
                         console.debug("xx:",xx);
@@ -101,6 +105,20 @@ export default function OwlBotDictionary({ navigation }) {
             </View>
         </ScrollView>
     )
+}
+
+async function saveLocalDb(word: string){
+    SQLite.DEBUG(true);
+    SQLite.enablePromise(true);
+
+    SQLite.openDatabase({
+        name: "TestDatabase",
+        location: "default"
+    }).then((db) => {
+        console.log("Database open!");
+    });
+    console.debug("saveLocalDb", word);
+    return true;
 }
 
 
