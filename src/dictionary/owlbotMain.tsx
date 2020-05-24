@@ -8,7 +8,8 @@ import { owlBotConstants } from "../common/constants"
 // import { ScrollView } from 'react-native-gesture-handler';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
-import SQLite from "react-native-sqlite-storage";
+// import SQLite from "react-native-sqlite-storage";
+import DBa from "../services/dbaccess"
 
 /**
  * help from: https://www.robinwieruch.de/react-hooks-fetch-data
@@ -17,7 +18,7 @@ import SQLite from "react-native-sqlite-storage";
 
 export default function OwlBotDictionary({ navigation }) {
     // const [ searchQuery, setSearchQuery ] = useState("");
-    const [ searchQuery, setSearchQuery ] = useState("test");
+    const [ searchQuery, setSearchQuery ] = useState("xxx");
     const [ wordDefinition, setWordDefinition ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ errors, setErrors ] = useState("");
@@ -57,16 +58,16 @@ export default function OwlBotDictionary({ navigation }) {
                     onPress={ async () => {
                         saveLocalDb(searchQuery);
                         setIsLoading(true);
-                        let xx = await searchApi(searchQuery);
-                        console.debug("xx:",xx);
-                        if(!xx.error){
-                            setWordDefinition(xx.definitions);
-                            setErrors("");
-                        }
-                        else{
-                            setErrors(xx.data);
-                            setWordDefinition([]);
-                        }
+                        // let xx = await searchApi(searchQuery);
+                        // console.debug("xx:",xx);
+                        // if(!xx.error){
+                        //     setWordDefinition(xx.definitions);
+                        //     setErrors("");
+                        // }
+                        // else{
+                        //     setErrors(xx.data);
+                        //     setWordDefinition([]);
+                        // }
                         setIsLoading(false);
                     }}
                     title={"Search"}
@@ -108,17 +109,19 @@ export default function OwlBotDictionary({ navigation }) {
 }
 
 async function saveLocalDb(word: string){
-    SQLite.DEBUG(true);
-    SQLite.enablePromise(true);
+    let dbo = new DBa();
+    dbo.showDb();
+    // SQLite.DEBUG(true);
+    // SQLite.enablePromise(true);
 
-    SQLite.openDatabase({
-        name: "TestDatabase",
-        location: "default"
-    }).then((db) => {
-        console.log("Database open!");
-    });
-    console.debug("saveLocalDb", word);
-    return true;
+    // SQLite.openDatabase({
+    //     name: "TestDatabase",
+    //     location: "default"
+    // }).then((db) => {
+    //     console.log("Database open!");
+    // });
+    // console.debug("saveLocalDb", word);
+    // return true;
 }
 
 
